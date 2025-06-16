@@ -19,6 +19,27 @@ interface SubfieldData {
 
 const tableData: SubfieldData[] = [
   {
+    name: "Robotics",
+    venues: [
+      {
+        name: "CoRL",
+        conferences: [
+          { year: 2024, link: "/papers/neurips/2024" },
+          { year: 2023, link: "/papers/neurips/2023" },
+          { year: 2022, link: "/papers/neurips/2022" },
+          { year: 2021, link: "/papers/neurips/2021" },
+        ],
+      },
+      {
+        name: "ICLR",
+        conferences: [
+          { year: 2025, link: "/papers/iclr/2025" },
+          { year: 2013, link: "/papers/iclr/2013" },
+        ],
+      },
+    ],
+  },
+  {
     name: "Artificial Intelligence",
     venues: [
       {
@@ -148,7 +169,9 @@ export default function Home() {
                             <button className="flex items-center gap-1 px-3 py-1 border rounded-full text-sm hover:bg-gray-100 transition-colors">
                               {venue.name}
                               <span className="text-xs text-gray-400">
-                                {venue.conferences.length > 0 ? venue.conferences[0].year : ''}
+                                {venue.conferences.length > 0 
+                                  ? `${Math.min(...venue.conferences.map(c => c.year))}-${Math.max(...venue.conferences.map(c => c.year))}`
+                                  : ''}
                               </span>
                               <svg
                                 className="-mr-1 ml-1 h-4 w-4"
@@ -165,11 +188,16 @@ export default function Home() {
                               </svg>
                             </button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-56">
+                          <DropdownMenuContent className="w-40">
+                            <DropdownMenuItem asChild>
+                              <a href={`/trends/${venue.name.toLowerCase()}`} target="_blank" rel="noopener noreferrer">
+                                近年总体趋势
+                              </a>
+                            </DropdownMenuItem>
                             {venue.conferences.map((conf) => (
                               <DropdownMenuItem key={conf.year} asChild>
                                 <a href={conf.link} target="_blank" rel="noopener noreferrer">
-                                  {conf.year} - Paper List
+                                  {conf.year}
                                 </a>
                               </DropdownMenuItem>
                             ))}
