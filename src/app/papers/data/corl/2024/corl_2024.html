@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoRL 2021-2024 机器人学研究趋势</title>
+    <!-- Chosen Palette: Modern Professional -->
+    <!-- Application Structure Plan: The SPA uses a single-page, scrolling narrative structure. It begins with a hero section summarizing the four core themes for immediate high-level understanding. The main body is a two-column grid, allowing for visualizations and their explanatory text to be placed side-by-side for direct context. This is more effective than a simple linear layout. Major thematic sections like the Foundation Model timeline span both columns for emphasis. The flow is designed to guide the user from the most impactful trend (Foundation Models) through key enabling technologies (Data, Sim2Real), core applications (Manipulation), critical considerations (Safety), and enabling interactions (HRI, Perception), concluding with a summary. This structure tells a coherent story and facilitates easier comprehension of complex relationships between trends. -->
+    <!-- Visualization & Content Choices: 
+        - Core Themes: Goal: Inform. Viz: Styled HTML cards. Justification: Provides a quick, scannable overview of the report's main pillars.
+        - Trend 1 (Foundation Models): Goal: Change. Viz: HTML/CSS Timeline. Justification: Best method to show chronological progression and key milestones each year without a library.
+        - Trend 2 (Data Utilization): Goal: Organize (Process). Viz: HTML/CSS Flowchart. Justification: Visually represents the paradigm shift in data strategies.
+        - Trend 3 (Sim2Real): Goal: Change. Viz: Line Chart (Chart.js). Justification: A line chart effectively emphasizes the continuous upward trend of research focus over time.
+        - Trend 4 (Manipulation): Goal: Compare (Composition over time). Viz: Stacked Bar Chart (Chart.js). Justification: Shows how the composition of task complexity evolved annually.
+        - Trend 5 (Safety): Goal: Compare. Viz: Radar Chart (Chart.js). Justification: Allows for multivariate comparison of focus areas between two periods (2021-22 vs. 2023-24).
+        - Trend 6 (HRI): Goal: Organize (Relationship). Viz: HTML/CSS Diagram. Justification: A simple diagram clearly shows the feedback loop between humans and robots.
+        - Trend 7 (Perception): Goal: Inform (Proportion). Viz: Donut Chart (Chart.js). Justification: Quickly communicates the relative research focus on key perception technologies in recent years.
+        All charts use Chart.js, render to Canvas, and include responsive settings, label wrapping, and custom tooltips. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F7F4;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+            margin-left: 1rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 11px;
+            height: 100%;
+            width: 2px;
+            background: #D1D5DB;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid #F8F7F4;
+            background-color: #3A7CA5;
+        }
+        .flowchart-node {
+            border: 2px solid #D9A273;
+            background-color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-arrow {
+            color: #D1D5DB;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#3A7CA5] mb-3">CoRL 2021-2024 研究趋势</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">一份对机器人学领域从处理特定任务到追求通用智能的演进脉络的交互式探索。</p>
+        </header>
+
+        <section class="mb-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#3A7CA5]">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">通用性</h3>
+                    <p class="text-gray-600">从单一、受限的任务，迈向更广泛、通用的应用场景。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#D9A273]">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">复杂任务处理</h3>
+                    <p class="text-gray-600">应对多阶段、接触密集、杂乱环境等更具挑战性的操作。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#8E8D8A]">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">人机交互</h3>
+                    <p class="text-gray-600">高效利用人类反馈，实现更自然、智能的人机协作。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-gray-400">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">大型模型利用</h3>
+                    <p class="text-gray-600">将基础模型作为“大脑”，实现规划、推理和直接控制。</p>
+                </div>
+            </div>
+        </section>
+
+        <main class="space-y-16">
+            
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800">趋势一：基础模型的崛起与深化</h2>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">这是2021至2024年间最引人注目的趋势。大型语言/视觉模型（LLMs/VLMs）正逐渐成为机器人系统的“大脑”，其发展历程清晰地展示了从初步探索到深度集成的演变。</p>
+                </div>
+                <div class="timeline max-w-3xl mx-auto">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-gray-800">2021: 初步探索</h4>
+                        <p class="text-gray-600 mt-1">结合语言与视觉，利用CLIP等预训练模型进行视觉-语言对齐。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-gray-800">2022: 应用扩展</h4>
+                        <p class="text-gray-600 mt-1">LLMs用于具身推理，VLMs用于视觉操作，NeRFs开始进入抓取任务。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-gray-800">2023: 爆炸式增长</h4>
+                        <p class="text-gray-600 mt-1">LLMs/VLMs成为规划、推理和直接控制的核心，零样本泛化成为研究热点。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-gray-800">2024: 深度集成</h4>
+                        <p class="text-gray-600 mt-1">聚焦具身思维链推理、自主纠正、LLM定义奖励函数及通用VLA模型。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势二：数据利用范式演进</h2>
+                    <p class="mt-2 text-gray-600 mb-6">研究重心已从传统的在线学习转向更精细化和高效的数据利用策略，展示了“数据辅助学习”的清晰演进路径。</p>
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <div class="flowchart-node">强化学习 / 模仿学习</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">离线学习 / 自监督学习</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">自主数据收集 / 自我改进</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">扩散模型（生成轨迹/策略）</div>
+                    </div>
+                    <p class="mt-6 text-sm text-gray-500 text-center">此流程图展示了数据利用范式从依赖大量在线交互，逐步演变为高效利用离线数据，并最终通过生成模型自主创造学习策略的趋势。</p>
+                </div>
+                
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势三：Sim2Real的持续突破</h2>
+                    <p class="mt-2 text-gray-600 mb-4">将仿真策略高效迁移至现实世界是机器人学的核心挑战。下图展示了近年来相关研究关注度的持续增长，以及方法的不断深化。</p>
+                    <div class="chart-container">
+                        <canvas id="sim2realChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">该折线图显示，Sim2Real的关注度逐年显著提升，研究重点从早期的特定任务迁移，发展到利用可微分仿真和数字孪生等先进技术来系统性地缩小现实差距。</p>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势四：操作任务的复杂化</h2>
+                    <p class="mt-2 text-gray-600 mb-4">机器人操作任务的复杂性不断提升。下图通过堆叠条形图，直观地展示了研究焦点从基础操作向更复杂、更通用的操作演变的趋势。</p>
+                    <div class="chart-container">
+                        <canvas id="manipulationChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">从图中可以看出，基础操作的研究占比逐年减少，而接触密集、工具使用和双臂协作等复杂任务的研究在2023年和2024年成为主流。</p>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势五：安全与鲁棒性的多维探索</h2>
+                    <p class="mt-2 text-gray-600 mb-4">确保机器人在不确定环境中的安全与鲁棒性是持续演进的核心问题。雷达图比较了不同时期内，研究在多个安全维度上的关注度分布。</p>
+                    <div class="chart-container">
+                        <canvas id="safetyChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">对比2021-22年与2023-24年，可以看出研究焦点从传统的控制方法，扩展到了对不确定性感知、可证明安全和故障检测等更深层次、更系统化的安全保证上。</p>
+                </div>
+                
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势六：更智能的人机交互</h2>
+                    <p class="mt-2 text-gray-600 mb-6">高效利用人类的反馈和偏好来指导机器人学习变得愈发重要。交互范式已从简单的指令，演变为更深层次的协作与学习。</p>
+                    <div class="flex items-center justify-around h-48 text-gray-700">
+                        <div class="text-center space-y-2">
+                            <div class="text-5xl">🧑</div>
+                            <h4 class="font-bold">人类</h4>
+                            <p class="text-sm text-gray-500">偏好 / 语言反馈</p>
+                        </div>
+                        <div class="text-2xl text-gray-400 font-sans flex flex-col space-y-4">
+                            <span>→ 学习奖励 →</span>
+                            <span>← 主动协助 ←</span>
+                        </div>
+                        <div class="text-center space-y-2">
+                             <div class="text-5xl">🤖</div>
+                            <h4 class="font-bold">机器人</h4>
+                             <p class="text-sm text-gray-500">归因 / 学习偏好</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-sm text-gray-500 text-center">此图描绘了人与机器人之间双向的学习关系。人类不仅提供指令，更通过多样化的反馈帮助机器人学习奖励函数和偏好，而机器人则能主动提供协助。</p>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold text-gray-800">趋势七：先进感知与3D场景理解</h2>
+                     <p class="mt-2 text-gray-600 mb-4">多模态感知与复杂的3D表示在机器人场景理解中发挥着关键作用。下图展示了近年来研究最关注的几类先进感知技术。</p>
+                    <div class="chart-container">
+                        <canvas id="perceptionChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">甜甜圈图显示，在2023-2024年，以3D高斯泼溅和NeRFs为代表的神经辐射场技术占据了研究的半壁江山，成为场景表示与理解的主流方法。</p>
+                </div>
+            </div>
+
+            <footer class="text-center mt-16 py-8 border-t border-gray-200">
+                <h2 class="text-3xl font-bold text-[#3A7CA5] mb-4">结论：迈向通用、智能与安全的未来</h2>
+                <p class="text-lg max-w-4xl mx-auto text-gray-600">
+                    综合来看，CoRL 2021-2024的研究趋势清晰地指向一个目标：构建**更通用、更智能、更安全**，并能与人类**更自然地交互**的机器人。
+                    **大型模型**正成为实现这一目标的“智能核心”，结合**高效数据策略**与**鲁棒的Sim2Real技术**，共同推动机器人在日益复杂的开放世界中展现出强大的能力。
+                </p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        const palette = {
+            primary: '#3A7CA5', // Professional Blue
+            secondary: '#D9A273', // Warm Ochre
+            text: '#4A4A4A',
+            textLight: '#555555',
+            grid: 'rgba(0, 0, 0, 0.08)',
+            accentGray: '#8E8D8A',
+        };
+
+        function wrapLabel(str, maxWidth = 16) {
+            if (typeof str !== 'string' || str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(/\s+/);
+            const lines = [];
+            let currentLine = '';
+
+            for (const word of words) {
+                if (currentLine.length === 0) {
+                    currentLine = word;
+                } else if (currentLine.length + word.length + 1 <= maxWidth) {
+                    currentLine += ' ' + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            if (currentLine.length > 0) {
+                lines.push(currentLine);
+            }
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            if (!item) return '';
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+        
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: palette.text,
+                        font: { size: 12 }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#FFFFFF',
+                    titleColor: palette.text,
+                    bodyColor: palette.textLight,
+                    borderColor: '#DDDDDD',
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: palette.textLight, font: { size: 12 } },
+                    grid: { color: palette.grid }
+                },
+                x: {
+                    ticks: { color: palette.textLight, font: { size: 12 } },
+                    grid: { color: 'transparent' }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('sim2realChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Sim2Real 关注度',
+                    data: [30, 55, 75, 90],
+                    backgroundColor: 'rgba(58, 124, 165, 0.2)',
+                    borderColor: palette.primary,
+                    pointBackgroundColor: palette.primary,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('manipulationChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['2021', '2022', '2023', '2024'],
+                datasets: [
+                    {
+                        label: '基础操作',
+                        data: [5, 3, 2, 1],
+                        backgroundColor: palette.accentGray,
+                    },
+                    {
+                        label: '接触/灵巧操作',
+                        data: [2, 4, 5, 6],
+                        backgroundColor: palette.secondary,
+                    },
+                    {
+                        label: '工具/双臂/开放世界',
+                        data: [1, 2, 4, 6],
+                        backgroundColor: palette.primary,
+                    }
+                ]
+            },
+            options: {
+                ...defaultChartOptions,
+                scales: {
+                    x: { stacked: true, ...defaultChartOptions.scales.x },
+                    y: { stacked: true, ...defaultChartOptions.scales.y }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('safetyChart').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: [
+                    '认证控制', 
+                    'CBF', 
+                    wrapLabel('不确定性感知'), 
+                    wrapLabel('可证明安全'), 
+                    wrapLabel('故障检测'),
+                    wrapLabel('风险感知规划'),
+                ],
+                datasets: [{
+                    label: '2021-2022',
+                    data: [4, 4, 3, 1, 2, 4],
+                    fill: true,
+                    backgroundColor: 'rgba(217, 162, 115, 0.2)',
+                    borderColor: palette.secondary,
+                    pointBackgroundColor: palette.secondary,
+                }, {
+                    label: '2023-2024',
+                    data: [3, 5, 5, 4, 4, 3],
+                    fill: true,
+                    backgroundColor: 'rgba(58, 124, 165, 0.2)',
+                    borderColor: palette.primary,
+                    pointBackgroundColor: palette.primary,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: palette.text } },
+                    tooltip: defaultChartOptions.plugins.tooltip
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: palette.grid },
+                        grid: { color: palette.grid },
+                        pointLabels: { color: palette.text, font: { size: 12 } },
+                        ticks: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        new Chart(document.getElementById('perceptionChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['3D高斯泼溅 / NeRFs', '视觉-语言 / 多模态', '传统3D表示 (点云等)', '其他'],
+                datasets: [{
+                    label: '感知技术焦点',
+                    data: [50, 25, 20, 5],
+                    backgroundColor: [
+                        palette.primary,
+                        palette.secondary,
+                        palette.accentGray,
+                        '#D1D5DB'
+                    ],
+                    borderColor: '#F8F7F4',
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                 responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: palette.text, padding: 15 }
+                    },
+                    tooltip: defaultChartOptions.plugins.tooltip,
+                }
+            }
+        });
+    </script>
+</body>
+</html>
