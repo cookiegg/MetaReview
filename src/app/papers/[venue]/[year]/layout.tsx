@@ -1,13 +1,7 @@
 import Link from 'next/link';
 
-export default async function ConferenceLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { venue: string; year: string };
-}) {
-  const { venue, year } = await params;
+export default function ConferenceLayout({ children, params }: any) {
+  const { venue, year } = params;
   return (
     <div className="flex min-h-screen">
       {/* 侧边栏 */}

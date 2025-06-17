@@ -2,13 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import Script from 'next/script';
 
-export default async function TrendsHtmlPage({
-  params,
-}: {
-  params: { venue: string };
-}) {
-  const { venue } = await params;
-  const filePath = path.join(process.cwd(), 'src/app/papers/data/', venue, 'trends', `${venue}_trend.html`);
+export async function generateStaticParams() {
+  const dataDir = path.join(process.cwd(), 'src/app/papers/data');
+  const venues = fs.readdirSync(dataDir);
+  return venues.map(venue => ({ venue }));
+}
+
+export default async function Page({ params }: any) {
+  const { venue } = params;
+  const filePath = path.join(process.cwd(), 'src/app/papers/data', venue, 'trends', `${venue}_trend.html`);
   
   try {
     const htmlContentFull = await fs.promises.readFile(filePath, 'utf-8');

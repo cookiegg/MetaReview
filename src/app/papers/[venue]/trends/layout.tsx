@@ -1,13 +1,7 @@
 import Link from 'next/link';
 
-export default async function TrendsLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { venue: string };
-}) {
-  const { venue } = await params;
+export default function TrendsLayout({ children, params }: any) {
+  const { venue } = params;
   
   return (
     <div className="flex min-h-screen">

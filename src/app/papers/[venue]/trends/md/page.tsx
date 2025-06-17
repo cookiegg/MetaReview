@@ -2,13 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import Markdown from 'react-markdown';
 
-export default async function TrendsMdPage({
-  params,
-}: {
-  params: { venue: string };
-}) {
-  const { venue } = await params;
-  const filePath = path.join(process.cwd(), 'src/app/papers/data/', venue, 'trends', `${venue}_trend_summary.md`);
+export async function generateStaticParams() {
+  const dataDir = path.join(process.cwd(), 'src/app/papers/data');
+  const venues = fs.readdirSync(dataDir);
+  return venues.map(venue => ({ venue }));
+}
+
+export default async function Page({ params }: any) {
+  const { venue } = params;
+  const filePath = path.join(process.cwd(), 'src/app/papers/data', venue, 'trends', `${venue}_trend_summary.md`);
   
   try {
     const mdContent = await fs.promises.readFile(filePath, 'utf-8');
