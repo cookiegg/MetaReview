@@ -134,7 +134,7 @@ function ConferenceDropdown({ venue }: { venue: Venue }) {
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[20px_1fr_20px] justify-items-center p-8 pb-8 gap-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {/* 社交媒体链接 */}
       <div className="absolute top-8 right-8 flex gap-4">
         <Link
@@ -163,13 +163,10 @@ export default function Home() {
           rel="noopener noreferrer"
           className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
         >
-          <Image
-            src="/icons/zhihu.svg"
-            alt="知乎"
-            width={24}
-            height={24}
-            className="w-6 h-6"
-          />
+          <svg className="w-6 h-6" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"  />
+            <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"  />
+          </svg>
         </Link>
       </div>
 
@@ -189,7 +186,7 @@ export default function Home() {
         {/* 表格部分 */}
         <div className="w-full max-w-4xl mt-8">
           <h2 className="text-2xl font-bold mb-4">Conferences / Venues</h2>
-          <p className="text-sm text-gray-500 mb-6">Data Acquired from Openreview, Official Sites, and Community</p>
+          <p className="text-sm text-gray-500 mb-6">Data Acquired from Papercopilot, Openreview, Official Sites, and Community</p>
 
           <Table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
             <TableHeader className="bg-gray-50">
@@ -198,13 +195,13 @@ export default function Home() {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Subfield
+                  Field
                 </TableHead>
                 <TableHead
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Conferences / Venues (Hover for quick links)
+                  Conferences / Venues
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -226,7 +223,18 @@ export default function Home() {
             </TableBody>
           </Table>
         </div>
+        <footer className="w-full text-center text-sm text-gray-500 dark:text-gray-500 mt-8 max-w-2xl px-4">
+        <p>
+          Many thanks to <Link href="https://jingyangcarl.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Jing Yang</Link> for creating the <Link href="https://github.com/papercopilot" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">PaperCopilot</Link> project.
+        </p>
+        <p className="mt-1">
+          Except for conferences in the control domain, all other datasets used in this project are adapted with minor modifications from PaperCopilot.
+        </p>
+      </footer>
+        
       </main>
+
+
     </div>
   );
 }
